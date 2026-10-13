@@ -1,0 +1,57 @@
+.flr-modal {
+    width: min(900px, 95vw);
+}
+
+.flr-summary {
+    padding: var(--size-4-3);
+    background-color: var(--background-secondary);
+    border-radius: var(--radius-m);
+    font-weight: var(--font-semibold);
+}
+
+.flr-list {
+    max-height: 340px;
+    overflow-y: auto;
+    overflow-wrap: anywhere;
+    padding: var(--size-4-2);
+}
+
+.flr-file {
+    margin-bottom: var(--size-4-3);
+}
+
+.flr-path {
+    font-weight: var(--font-semibold);
+    margin-bottom: var(--size-4-1);
+}
+
+.flr-match {
+    display: flex;
+    gap: var(--size-4-2);
+    align-items: flex-start;
+    margin-bottom: var(--size-4-2);
+}
+
+.flr-lines code {
+    display: block;
+    white-space: pre-wrap;
+}
+
+.flr-line-no {
+    color: var(--text-muted);
+    font-size: var(--font-ui-smaller);
+}
+
+.flr-old {
+    color: var(--text-error);
+}
+
+.flr-new {
+    color: var(--text-success);
+}
+
+.flr-skip,
+.flr-warning {
+    color: var(--text-warning);
+    overflow-wrap: anywhere;
+}

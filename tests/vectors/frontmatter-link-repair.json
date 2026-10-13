@@ -1,0 +1,692 @@
+{
+ "slug": "frontmatter-link-repair",
+ "module": "frontmatter-link-repair/src/repair",
+ "function": "repairText",
+ "note": "Each case calls repairText with raw note text and the selected top-level keys. Expected output is exact. The notes are synthetic.",
+ "cases": [
+  {
+   "name": "Scalar link gets double quotes",
+   "args": [
+    "---\nparent: [[Some note]]\n---\nBody\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparent: \"[[Some note]]\"\n---\nBody\n",
+    "matches": [
+     {
+      "line": 2,
+      "key": "parent",
+      "old": "parent: [[Some note]]",
+      "new": "parent: \"[[Some note]]\""
+     }
+    ],
+    "skips": []
+   }
+  },
+  {
+   "name": "Block list item with alias keeps its indentation",
+   "args": [
+    "---\nparents:\n  - [[A|Alias]]\n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparents:\n  - \"[[A|Alias]]\"\n---\n",
+    "matches": [
+     {
+      "line": 3,
+      "key": "parents",
+      "old": "  - [[A|Alias]]",
+      "new": "  - \"[[A|Alias]]\""
+     }
+    ],
+    "skips": []
+   }
+  },
+  {
+   "name": "Double quoted link stays the same",
+   "args": [
+    "---\nparent: \"[[A]]\"\n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparent: \"[[A]]\"\n---\n",
+    "matches": [],
+    "skips": []
+   }
+  },
+  {
+   "name": "Single quoted link stays the same",
+   "args": [
+    "---\nparent: '[[A]]'\n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparent: '[[A]]'\n---\n",
+    "matches": [],
+    "skips": []
+   }
+  },
+  {
+   "name": "Heading link gets quotes",
+   "args": [
+    "---\nup: [[A#Heading]]\n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nup: \"[[A#Heading]]\"\n---\n",
+    "matches": [
+     {
+      "line": 2,
+      "key": "up",
+      "old": "up: [[A#Heading]]",
+      "new": "up: \"[[A#Heading]]\""
+     }
+    ],
+    "skips": []
+   }
+  },
+  {
+   "name": "Block reference link keeps its exact text",
+   "args": [
+    "---\nup: [[A#^block]]\n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nup: \"[[A#^block]]\"\n---\n",
+    "matches": [
+     {
+      "line": 2,
+      "key": "up",
+      "old": "up: [[A#^block]]",
+      "new": "up: \"[[A#^block]]\""
+     }
+    ],
+    "skips": []
+   }
+  },
+  {
+   "name": "Body link stays the same",
+   "args": [
+    "---\ntitle: Note\n---\nSee [[A]] and\nparent: [[B]]\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\ntitle: Note\n---\nSee [[A]] and\nparent: [[B]]\n",
+    "matches": [],
+    "skips": []
+   }
+  },
+  {
+   "name": "Quote inside the link is ambiguous",
+   "args": [
+    "---\nparent: [[\"A\"]]\n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparent: [[\"A\"]]\n---\n",
+    "matches": [],
+    "skips": [
+     {
+      "line": 2,
+      "key": "parent",
+      "reason": "Quote or backslash in the link text"
+     }
+    ]
+   }
+  },
+  {
+   "name": "Flow list with two items is ambiguous",
+   "args": [
+    "---\nrelated: [[[A]], [[B]]]\n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nrelated: [[[A]], [[B]]]\n---\n",
+    "matches": [],
+    "skips": [
+     {
+      "line": 2,
+      "key": "related",
+      "reason": "Flow list, comment or text next to the link"
+     }
+    ]
+   }
+  },
+  {
+   "name": "Two links on one line are ambiguous",
+   "args": [
+    "---\nrelated: [[A]], [[B]]\n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nrelated: [[A]], [[B]]\n---\n",
+    "matches": [],
+    "skips": [
+     {
+      "line": 2,
+      "key": "related",
+      "reason": "Flow list, comment or text next to the link"
+     }
+    ]
+   }
+  },
+  {
+   "name": "Comma in the link text is ambiguous",
+   "args": [
+    "---\nparent: [[A, B]]\n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparent: [[A, B]]\n---\n",
+    "matches": [],
+    "skips": [
+     {
+      "line": 2,
+      "key": "parent",
+      "reason": "Comma in the link text, YAML reads a list with more than one item"
+     }
+    ]
+   }
+  },
+  {
+   "name": "Nested mapping is skipped",
+   "args": [
+    "---\nparent:\n  name: [[A]]\n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparent:\n  name: [[A]]\n---\n",
+    "matches": [],
+    "skips": [
+     {
+      "line": 2,
+      "key": "parent",
+      "reason": "Nested mapping or nested list"
+     }
+    ]
+   }
+  },
+  {
+   "name": "Literal block scalar is skipped",
+   "args": [
+    "---\nparent: |\n  [[A]]\n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparent: |\n  [[A]]\n---\n",
+    "matches": [],
+    "skips": [
+     {
+      "line": 2,
+      "key": "parent",
+      "reason": "Multiline scalar"
+     }
+    ]
+   }
+  },
+  {
+   "name": "Multiline plain scalar is skipped",
+   "args": [
+    "---\nparent: [[A]]\n  [[B]]\n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparent: [[A]]\n  [[B]]\n---\n",
+    "matches": [],
+    "skips": [
+     {
+      "line": 2,
+      "key": "parent",
+      "reason": "Multiline scalar"
+     }
+    ]
+   }
+  },
+  {
+   "name": "No closing delimiter skips the file",
+   "args": [
+    "---\nparent: [[A]]\nBody text\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparent: [[A]]\nBody text\n",
+    "matches": [],
+    "skips": [
+     {
+      "line": 0,
+      "key": "",
+      "reason": "No closing frontmatter delimiter"
+     }
+    ]
+   }
+  },
+  {
+   "name": "Key that is not selected stays the same",
+   "args": [
+    "---\nsource: [[A]]\nparent: [[B]]\n---\n",
+    [
+     "parent"
+    ]
+   ],
+   "expected": {
+    "output": "---\nsource: [[A]]\nparent: \"[[B]]\"\n---\n",
+    "matches": [
+     {
+      "line": 3,
+      "key": "parent",
+      "old": "parent: [[B]]",
+      "new": "parent: \"[[B]]\""
+     }
+    ],
+    "skips": []
+   }
+  },
+  {
+   "name": "CRLF line endings stay the same",
+   "args": [
+    "---\r\nparent: [[A]]\r\nparents:\r\n  - [[B]]\r\n---\r\nBody\r\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\r\nparent: \"[[A]]\"\r\nparents:\r\n  - \"[[B]]\"\r\n---\r\nBody\r\n",
+    "matches": [
+     {
+      "line": 2,
+      "key": "parent",
+      "old": "parent: [[A]]",
+      "new": "parent: \"[[A]]\""
+     },
+     {
+      "line": 4,
+      "key": "parents",
+      "old": "  - [[B]]",
+      "new": "  - \"[[B]]\""
+     }
+    ],
+    "skips": []
+   }
+  },
+  {
+   "name": "Column 0 list items get quotes",
+   "args": [
+    "---\nparents:\n- [[A]]\n- \"[[B]]\"\n- plain text\n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparents:\n- \"[[A]]\"\n- \"[[B]]\"\n- plain text\n---\n",
+    "matches": [
+     {
+      "line": 3,
+      "key": "parents",
+      "old": "- [[A]]",
+      "new": "- \"[[A]]\""
+     }
+    ],
+    "skips": []
+   }
+  },
+  {
+   "name": "Nested list item is skipped",
+   "args": [
+    "---\nparents:\n  - [[A]]\n  -\n    - [[B]]\n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparents:\n  - [[A]]\n  -\n    - [[B]]\n---\n",
+    "matches": [],
+    "skips": [
+     {
+      "line": 2,
+      "key": "parents",
+      "reason": "Nested mapping or nested list"
+     }
+    ]
+   }
+  },
+  {
+   "name": "Duplicate selected key is skipped",
+   "args": [
+    "---\nparent: [[A]]\nparent: [[B]]\n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparent: [[A]]\nparent: [[B]]\n---\n",
+    "matches": [],
+    "skips": [
+     {
+      "line": 3,
+      "key": "parent",
+      "reason": "Duplicate key"
+     }
+    ]
+   }
+  },
+  {
+   "name": "Trailing comment after the link is ambiguous",
+   "args": [
+    "---\nparent: [[A]] # main\n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparent: [[A]] # main\n---\n",
+    "matches": [],
+    "skips": [
+     {
+      "line": 2,
+      "key": "parent",
+      "reason": "Flow list, comment or text next to the link"
+     }
+    ]
+   }
+  },
+  {
+   "name": "Trailing spaces stay after the closing quote",
+   "args": [
+    "---\nparent: [[A]]   \n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparent: \"[[A]]\"   \n---\n",
+    "matches": [
+     {
+      "line": 2,
+      "key": "parent",
+      "old": "parent: [[A]]   ",
+      "new": "parent: \"[[A]]\"   "
+     }
+    ],
+    "skips": []
+   }
+  },
+  {
+   "name": "Note without frontmatter stays the same",
+   "args": [
+    "parent: [[A]]\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "parent: [[A]]\n",
+    "matches": [],
+    "skips": []
+   }
+  },
+  {
+   "name": "Tab indentation in a block is skipped",
+   "args": [
+    "---\nparents:\n\t- [[A]]\n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparents:\n\t- [[A]]\n---\n",
+    "matches": [],
+    "skips": [
+     {
+      "line": 2,
+      "key": "parents",
+      "reason": "Tab in the indentation"
+     }
+    ]
+   }
+  },
+  {
+   "name": "Anchor before the value is skipped",
+   "args": [
+    "---\nparent: &p [[A]]\n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparent: &p [[A]]\n---\n",
+    "matches": [],
+    "skips": [
+     {
+      "line": 2,
+      "key": "parent",
+      "reason": "Anchor, alias or tag"
+     }
+    ]
+   }
+  },
+  {
+   "name": "Plain text value stays the same",
+   "args": [
+    "---\nparent: Some note\n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparent: Some note\n---\n",
+    "matches": [],
+    "skips": []
+   }
+  },
+  {
+   "name": "Key with spaces and a dash in the name",
+   "args": [
+    "---\nparent note: [[A]]\nsee-also: [[B]]\n---\n",
+    [
+     "parent note",
+     "see-also"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparent note: \"[[A]]\"\nsee-also: \"[[B]]\"\n---\n",
+    "matches": [
+     {
+      "line": 2,
+      "key": "parent note",
+      "old": "parent note: [[A]]",
+      "new": "parent note: \"[[A]]\""
+     },
+     {
+      "line": 3,
+      "key": "see-also",
+      "old": "see-also: [[B]]",
+      "new": "see-also: \"[[B]]\""
+     }
+    ],
+    "skips": []
+   }
+  },
+  {
+   "name": "Comments and blank lines in a block list",
+   "args": [
+    "---\nparents:\n  # first\n  - [[A]]\n\n  - [[B/C|C]]\n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparents:\n  # first\n  - \"[[A]]\"\n\n  - \"[[B/C|C]]\"\n---\n",
+    "matches": [
+     {
+      "line": 4,
+      "key": "parents",
+      "old": "  - [[A]]",
+      "new": "  - \"[[A]]\""
+     },
+     {
+      "line": 6,
+      "key": "parents",
+      "old": "  - [[B/C|C]]",
+      "new": "  - \"[[B/C|C]]\""
+     }
+    ],
+    "skips": []
+   }
+  },
+  {
+   "name": "Space before hash in the link is ambiguous",
+   "args": [
+    "---\nparent: [[A #b]]\n---\n",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparent: [[A #b]]\n---\n",
+    "matches": [],
+    "skips": [
+     {
+      "line": 2,
+      "key": "parent",
+      "reason": "YAML indicator in the link text"
+     }
+    ]
+   }
+  },
+  {
+   "name": "Final line without a line ending",
+   "args": [
+    "---\nparent: [[A]]\n---",
+    [
+     "parent",
+     "parents",
+     "up",
+     "related"
+    ]
+   ],
+   "expected": {
+    "output": "---\nparent: \"[[A]]\"\n---",
+    "matches": [
+     {
+      "line": 2,
+      "key": "parent",
+      "old": "parent: [[A]]",
+      "new": "parent: \"[[A]]\""
+     }
+    ],
+    "skips": []
+   }
+  }
+ ]
+}
