@@ -273,7 +273,7 @@ describe('plugin lifecycle', () => {
 		const { plugin } = setup();
 		const add = vi.spyOn(plugin, 'addCommand');
 		await plugin.onload();
-		expect(add.mock.calls.map((c) => c[0].id)).toEqual(['preview-repair']);
+		expect(add.mock.calls.map((c) => c[0].id)).toEqual(['show-whats-new', 'send-feedback', 'preview-repair']);
 		plugin.onunload();
 		expect(isPro()).toBe(false);
 	});

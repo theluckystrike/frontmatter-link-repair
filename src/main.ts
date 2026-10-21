@@ -5,6 +5,8 @@ import { SPONSORS, bindPro, isPro, resetPro } from './pro';
 import { applyMatches, inFolder, matchId, parseKeys, repairText, reportText, type ApplyOutcome, type RepairMatch, type RepairSkip } from './repair';
 import { DEFAULT_SETTINGS, FrontmatterLinkRepairSettingTab, MAX_PRESETS, normalizeSettings, type FrontmatterLinkRepairSettings } from './settings';
 import { RepairModal } from './ui';
+import { setupHello } from './hello/index';
+import WHATS_NEW from './whats-new.json';
 
 export { matchId };
 
@@ -61,6 +63,8 @@ export default class FrontmatterLinkRepairPlugin extends Plugin {
 	private settingTab: FrontmatterLinkRepairSettingTab | null = null;
 
 	async onload(): Promise<void> {
+		// First: "What's new" reads its state before the settings load (packages/hello). It does not wait.
+		setupHello(this, WHATS_NEW);
 		await this.loadSettings();
 		// No request here: a request needs a GitHub sign in first (Settings, Pro, Sign in with GitHub).
 		const pro = createGitHubSponsors(this.app, this.manifest.id, SPONSORS, this);

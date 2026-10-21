@@ -48,13 +48,9 @@ With Pro, Export report writes a new Markdown note in `Frontmatter Link Repair/R
 
 ## Install
 
-Until the plugin is in the Community plugins list, install it by hand:
+Open Settings, then Community plugins, then Browse, and search for "Frontmatter Link Repair". Select Install, then Enable.
 
-1. Get `main.js`, `manifest.json` and `styles.css` from a plugin build or, after release, from the release files.
-2. Make the folder `.obsidian/plugins/frontmatter-link-repair/` in your vault and put the three files in it.
-3. In Obsidian, open Settings, then Community plugins, and turn on Frontmatter Link Repair.
-
-When the plugin is in the list, search for Frontmatter Link Repair in Settings, Community plugins, Browse.
+To install by hand, download `main.js`, `manifest.json` and `styles.css` from the latest release and put them in `<vault>/.obsidian/plugins/frontmatter-link-repair/`. Reload the community plugins, then turn on Frontmatter Link Repair.
 
 ## Usage
 
@@ -69,6 +65,8 @@ When the plugin is in the list, search for Frontmatter Link Repair in Settings, 
 The plugin saves the folder and the keys of the last preview. To undo a write, open the restore copy with a text editor and copy its text back into the note.
 
 ## Settings
+
+After a minor or major update, this plugin opens one What's new tab in the background. The tab and settings card suggest other NoteMods plugins and Zovo Chat and link to notemods.com for feedback ([privacy](https://notemods.com/privacy/)). The tab sends no data. Turn the tab off in Settings.
 
 - Folder: the vault folder to read, with its subfolders. Empty means the vault root.
 - Keys: the top-level frontmatter keys to repair, separated by commas.
