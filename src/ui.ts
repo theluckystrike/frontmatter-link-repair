@@ -205,7 +205,7 @@ export class RepairModal extends Modal {
 		actions.addButton((b) =>
 			b
 				.setButtonText(`Export report${PRO}`)
-				.setDisabled(!isPro())
+				// Enabled for all users: a free user's click shows the Pro notice (exportReport) and writes nothing.
 				.onClick(async () => {
 					if (this.plan) await this.plugin.exportReport(this.plan, this.result);
 				}),

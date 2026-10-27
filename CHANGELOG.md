@@ -1,5 +1,11 @@
 # frontmatter-link-repair
 
+## 1.1.1
+
+### Patch Changes
+
+- c6b797d: Export report in the repair window now shows how to get Pro, with a Sponsor on GitHub button. No report is written without Pro.
+
 ## 1.1.0
 
 ### Minor Changes

@@ -1,7 +1,7 @@
 import { Notice, Plugin, TFolder, normalizePath, type TFile } from 'obsidian';
 import type { SponsorsManager } from './license/index';
 import { createGitHubSponsors } from './license/github-obsidian';
-import { SPONSORS, bindPro, isPro, resetPro } from './pro';
+import { PRO_REPORT, SPONSORS, bindPro, isPro, proNotice, resetPro } from './pro';
 import { applyMatches, inFolder, matchId, parseKeys, repairText, reportText, type ApplyOutcome, type RepairMatch, type RepairSkip } from './repair';
 import { DEFAULT_SETTINGS, FrontmatterLinkRepairSettingTab, MAX_PRESETS, normalizeSettings, type FrontmatterLinkRepairSettings } from './settings';
 import { RepairModal } from './ui';
@@ -216,7 +216,7 @@ export default class FrontmatterLinkRepairPlugin extends Plugin {
 	/** Pro: writes the repair report as a new note in REPORT_FOLDER. */
 	async exportReport(plan: RepairPlan, result: ApplyResult | null): Promise<TFile | null> {
 		if (!isPro()) {
-			new Notice('Report export needs a GitHub sponsorship. Open the plugin settings to sign in.');
+			proNotice(PRO_REPORT);
 			return null;
 		}
 		const stamp = fileStamp(this.now());

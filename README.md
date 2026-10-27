@@ -2,7 +2,7 @@
 
 Frontmatter Link Repair finds wiki links without quotes in the raw frontmatter of your notes and puts double quotes around them. It shows the old and new line of each match first. You check the matches, select Apply, and the plugin saves a restore copy of each note before it writes the note.
 
-The tests include raw frontmatter such as `parent: [[Some note]]`. The repair changes it to `parent: "[[Some note]]"`. This plugin is for raw files that you wrote by hand, imported or made with a template.
+The tests include raw frontmatter such as `parent: [[Some note]]`. The repair changes it to `parent: "[[Some note]]"`. This plugin is for raw files that you wrote by hand or imported.
 
 <img src="https://raw.githubusercontent.com/theluckystrike/frontmatter-link-repair/HEAD/docs/repair-flow.gif" alt="Preview the matches, apply the checked ones, then open the repaired note" width="720">
 
@@ -10,7 +10,7 @@ The tests include raw frontmatter such as `parent: [[Some note]]`. The repair ch
 
 ### Preview with the old and new line
 
-The preview reads the Markdown notes in one folder and its subfolders. For each visible match it shows the note path, the line number, the key, the old line and the new line. Each visible match has a checkbox, and each checkbox starts checked. The preview does not change note text.
+The preview reads the Markdown notes in one folder and its subfolders. For each visible match it shows the note path, the line number, the key, the old line and the new line. Each visible match has a checkbox, and each checkbox starts checked. The preview changes no text.
 
 <img src="https://raw.githubusercontent.com/theluckystrike/frontmatter-link-repair/HEAD/docs/preview.png" alt="The repair preview with the old and new line of each match" width="720">
 
@@ -42,7 +42,7 @@ With Pro, you can save the folder and the keys as a named preset in the preview 
 
 ### Export the repair report (Pro)
 
-With Pro, Export report writes a new Markdown note in `Frontmatter Link Repair/Reports`. The report lists the folder, the keys, each match with its old and new line, each skipped part with its reason, and the result of each write with its restore copy.
+With Pro, Export report writes a new Markdown note in `Frontmatter Link Repair/Reports`. The report lists the folder, the keys, each match with its old and new line, each skipped part with its reason, and the result of each write with its restore copy. Without Pro, the button shows a Sponsor on GitHub notice.
 
 <img src="https://raw.githubusercontent.com/theluckystrike/frontmatter-link-repair/HEAD/docs/report.png" alt="An exported repair report with skipped parts, reasons and restore copies" width="720">
 

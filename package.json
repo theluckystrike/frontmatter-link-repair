@@ -1,7 +1,6 @@
 {
 	"name": "frontmatter-link-repair",
-	"repository": {"type": "git", "url": "theluckystrike/frontmatter-link-repair.git"},
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"private": true,
 	"description": "Quote complete wiki links in raw frontmatter after a checked repair preview.",
 	"main": "main.js",
