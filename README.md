@@ -71,8 +71,8 @@ After a minor or major update, this plugin opens one What's new tab in the backg
 - Folder: the vault folder to read, with its subfolders. Empty means the vault root.
 - Keys: the top-level frontmatter keys to repair, separated by commas.
 - Restore copy folder: the vault folder for the restore copies.
-- Saved presets (Pro): a list of your presets. You save, load and delete them in the preview window.
-- Pro: sign in with GitHub, the sponsorship status and the Refresh and Sign out buttons.
+- Saved presets (Pro): a list of your presets. Save, load and delete them in the preview window.
+- Pro: GitHub sign in, sponsorship status, Refresh and Sign out.
 
 ## FAQ
 
@@ -86,7 +86,7 @@ No. If the Properties view saved `[[A]]` as a nested list, the plugin cannot tel
 
 ### Why does it skip a link with a comma or a quote?
 
-YAML reads `[[A, B]]` as a list with two items. A double quote or a backslash in the link text would need an escape inside the new quotes, which changes the text in the file. You can fix them by hand.
+YAML reads `[[A, B]]` as a list with two items. A double quote or a backslash in the link text would need an escape inside the new quotes, which changes the text in the file. Fix them by hand.
 
 ### Does it keep my line endings?
 
@@ -103,6 +103,8 @@ There is no restore button in this version. Each restore copy has the original t
 ## Payment, account and network
 
 The core features are free. Pro features need a GitHub Sponsors sponsorship of theluckystrike: $5 a month or more, or $15 once. A total payment of $15 meets the payment requirement for Pro without further payment. Sign-in and the checks below still apply. Your notes stay readable and editable with or without Pro.
+
+[One payment turns on Pro in every NoteMods plugin](https://notemods.com/pro/).
 
 GitHub handles the payment. Sponsor at https://github.com/sponsors/theluckystrike?frequency=one-time&metadata_source=frontmatter-link-repair. You need no account for the free features. Pro needs the GitHub account that sponsors.
 
