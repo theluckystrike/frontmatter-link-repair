@@ -1,9 +1,9 @@
 {
 	"id": "frontmatter-link-repair",
 	"name": "Frontmatter Link Repair",
-	"version": "1.1.1",
+	"version": "1.1.2",
 	"minAppVersion": "1.13.4",
-	"description": "Quote complete wiki links in raw frontmatter after a checked repair preview.",
+	"description": "Quote wikilinks in frontmatter. Find links without quotes in raw YAML frontmatter, preview each change, then add double quotes. It saves a restore copy first.",
 	"author": "Michael Lip",
 	"authorUrl": "https://github.com/theluckystrike",
 	"fundingUrl": "https://github.com/sponsors/theluckystrike",

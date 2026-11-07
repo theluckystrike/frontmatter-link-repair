@@ -7,7 +7,7 @@ import manifest from '../manifest.json';
 
 // A free user can select Export report in the repair window. The click shows the shared Pro notice with a
 // Sponsor button and writes no report. A Pro user's click writes the report note, as before.
-const PITCH = 'Sponsor on GitHub, then sign in from the plugin settings.';
+const PITCH = 'One payment turns on Pro in every NoteMods plugin. Sponsor on GitHub, then sign in from the plugin settings.';
 const A = '---\nparent: [[Some note]]\n---\nBody\n';
 
 function fakePro(pro: boolean): SponsorsManager {

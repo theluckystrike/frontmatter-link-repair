@@ -1,6 +1,6 @@
 {
 	"name": "frontmatter-link-repair",
-	"version": "1.1.1",
+	"version": "1.1.2",
 	"private": true,
 	"description": "Quote complete wiki links in raw frontmatter after a checked repair preview.",
 	"main": "main.js",
