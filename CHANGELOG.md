@@ -1,5 +1,11 @@
 # frontmatter-link-repair
 
+## 1.1.3
+
+### Patch Changes
+
+- The Sponsor button now opens the NoteMods one-time tier.
+
 ## 1.1.2
 
 ### Patch Changes

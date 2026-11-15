@@ -1,7 +1,7 @@
 {
 	"id": "frontmatter-link-repair",
 	"name": "Frontmatter Link Repair",
-	"version": "1.1.2",
+	"version": "1.1.3",
 	"minAppVersion": "1.13.4",
 	"description": "Quote wikilinks in frontmatter. Find links without quotes in raw YAML frontmatter, preview each change, then add double quotes. It saves a restore copy first.",
 	"author": "Michael Lip",
